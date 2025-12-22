@@ -132,5 +132,29 @@ public static class TransactionEndpoints
             Tags = tag
         })
         .RequireAuthorization("Admin");
-    }
+
+		//UPLOAD FILE
+		app.MapPost("/api/transactions/upload-from-file",
+		async (
+			IFormFile file,
+			[FromServices] ITransactionService service,
+			[FromServices] INotificationService notification,
+			HttpContext context) =>
+		{
+			var loggedUserId = TokenExtension.GetUserIdFromToken(context);
+			var loggedUserName = TokenExtension.GetUserNameFromToken(context);
+			var result = await service.UploadFileWithTransactions(file, loggedUserId, loggedUserName);
+			if (notification.HasNotifications) return Results.BadRequest(notification.Notifications);
+			return Results.Ok(result);
+		})
+		.Produces((int)HttpStatusCode.OK)
+		.WithName("uploadPhoto")
+		.WithOpenApi(x => new OpenApiOperation(x)
+		{
+			Summary = "Upload file with Transactions Data",
+			Description = "This endpoint receives a File as the request body to process. It produces a 200 status code.",
+			Tags = tag
+		}).DisableAntiforgery()
+		.RequireAuthorization("Admin");
+	}
 }

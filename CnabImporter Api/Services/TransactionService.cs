@@ -8,11 +8,13 @@ public interface ITransactionService
 	Task<Transaction?> UpdateAsync(Transaction model, long loggedUserId, string loggedUserName);
 	Task<Transaction?> PatchAsync(Transaction model, long loggedUserId, string loggedUserName);
 	Task<bool?> DeleteAsync(long id, long loggedUserId, string loggedUserName);
+	Task<bool?> UploadFileWithTransactions(IFormFile file, long loggedUserId, string loggedUserName);
 }
 
 public sealed class TransactionService(
 	CnabDbContext db,
-    INotificationService notification) : ITransactionService
+	ILogger<TransactionService> logger,
+	INotificationService notification) : ITransactionService
 {
     public async Task<Transaction?> GetByIdAsync(long id) => await db.Transactions.FirstOrDefaultAsync(f => f.Id == id);
 
@@ -163,5 +165,99 @@ public sealed class TransactionService(
 		await db.SaveChangesAsync();
 
 		return true;
+	}
+
+	public async Task<bool?> UploadFileWithTransactions(IFormFile file, long loggedUserId, string loggedUserName)
+	{
+		if (file == null || file.Length == 0)
+		{
+			notification.AddNotification("UploadFileWithTransactions", "File empty.");
+			return false;
+		}
+
+		var transactions = new List<Transaction>();
+		var transactionTypes = await db.TransactionTypes.ToDictionaryAsync(k => k.Id, v => v);
+
+		using var stream = file.OpenReadStream();
+		using var reader = new StreamReader(stream);
+
+		while (!reader.EndOfStream)
+		{
+			var line = await reader.ReadLineAsync();
+
+			if (string.IsNullOrWhiteSpace(line) || line.Length < 81)
+				continue;
+
+			try
+			{
+				var type = int.Parse(line.Substring(0, 1));
+				if (!transactionTypes.ContainsKey(type))
+				{
+					var errorMsg = $"Invalid transaction type '{type}' in line: {line}";
+					logger.LogError(errorMsg);
+					notification.AddNotification("UploadFileWithTransactions - reading type", errorMsg);
+					continue;
+				}
+
+				var date = DateTime.ParseExact(
+					line.Substring(1, 8),
+					"yyyyMMdd",
+					CultureInfo.InvariantCulture);
+
+				var time = TimeSpan.ParseExact(
+					line.Substring(42, 6),
+					"hhmmss",
+					CultureInfo.InvariantCulture);
+
+				var amount = decimal.Parse(line.Substring(9, 10)) / 100m;
+
+				var transaction = new Transaction
+				{
+					Date = date,
+					Time = time,
+					Value = amount,
+					Cpf = line.Substring(19, 11).Trim(),
+					Card = line.Substring(30, 12).Trim(),
+					Owner = line.Substring(48, 14).Trim(),
+					Store = line.Substring(62, 19).Trim(),
+
+					TransactionTypeId = type,
+
+					CreatedAt = DateTime.UtcNow,
+					UpdatedAt = DateTime.UtcNow,
+					UpdatedBy = loggedUserName,
+				};
+
+				transactions.Add(transaction);
+			}
+			catch (Exception ex)
+			{
+				var errorMsg = $"Error parsing line: {line}";
+				logger.LogError(ex, errorMsg);
+				notification.AddNotification("UploadFileWithTransactions - reading line", errorMsg);
+			}
+		}
+
+		if (transactions.Count == 0)
+			return false;
+
+		using var transactionScope = await db.Database.BeginTransactionAsync();
+
+		try
+		{
+			db.Transactions.AddRange(transactions);
+			await db.SaveChangesAsync();
+
+			await transactionScope.CommitAsync();
+			return true;
+		}
+		catch (Exception ex)
+		{
+			await transactionScope.RollbackAsync();
+			var errorMsg = "Error saving transactions.";
+			logger.LogError(ex, errorMsg);
+			notification.AddNotification("UploadFileWithTransactions - reading line", errorMsg);
+			return null;
+		}
 	}
 }
