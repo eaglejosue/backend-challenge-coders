@@ -1,0 +1,32 @@
+.bgHeaderSideBar {
+  background: rgba(219, 55, 55, 1);
+  color: white;
+}
+
+.bgBodySideBar {
+  background: rgba(188, 47, 47, 1);
+  height: 100vh;
+}
+
+.aNavLink, span {
+  vertical-align: middle;
+}
+
+.mobileShowSideBar {
+  display: none !important ;
+}
+
+.desktopShowSideBar {
+  text-align: center;
+}
+
+/* Smartphone Portrait and Landscape */
+@media only screen and (max-width: 576px) {
+  .mobileShowSideBar {
+    display: inline !important;
+    text-align: center;
+  }
+  .desktopShowSideBar {
+    display: none !important ;
+  }
+}

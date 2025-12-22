@@ -1,0 +1,46 @@
+.labelFloat {
+  position: relative;
+  padding-top: 13px;
+}
+
+.labelFloat input {
+  border: 2px solid lightgrey;
+  border-radius: 5px;
+  min-width: 62%;
+  padding-left: 3%;
+  padding-top: 3%;
+  padding-bottom: 1%;
+  font-size: 16px;
+  transition: all 0.1s linear;
+  color: white;
+  background: transparent;
+}
+
+
+.labelFloat input:focus {
+  border: 2px solid #172a58;
+}
+
+.labelFloat input::placeholder {
+  color: transparent;
+}
+
+.labelFloat label {
+  pointer-events: none;
+  position: absolute;
+  top: calc(50% - 8px);
+  left: 15px;
+  transition: all 0.1s linear;
+  -webkit-transition: all 0.1s linear;
+  -moz-transition: all 0.1s linear;
+  padding: 5px;
+  box-sizing: border-box;
+  color: white;
+}
+
+.labelFloat input:focus+label,
+.labelFloat input:not(:placeholder-shown)+label {
+  font-size: 13px;
+  top: calc(20%);
+}
+

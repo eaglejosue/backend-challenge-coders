@@ -1,0 +1,44 @@
+// Weights
+$hairline-weight: 100;
+$thin-weight: 200;
+$light-weight: 300;
+$normal-weight: 400;
+$medium-weight: 500;
+$semibold-weight: 600;
+$bold-weight: 700;
+$xbold-weight: 800;
+$black-weight: 900;
+
+// Synonyms
+$regular-weight: $normal-weight;
+$book-weight: $light-weight;
+$xlight-weight: $hairline-weight;
+$ultralight-weight: $hairline-weight;
+$heavy-weight: $xbold-weight;
+
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
+
+@font-face {
+  font-family: 'Gothan'; /* Give your font a unique name */
+  src: url('fonts/gotham/Gotham-Medium.otf') format('otf'),
+       url('fonts/gotham/Gotham-Medium.otf') format('otf'); /* Path to font files */
+  font-weight: $normal-weight;  /* Specify the font's weight */
+  font-style: normal;  /* Specify the font's style */
+}
+// Use 'em
+
+body {
+  font-family: "Montserrat", bold;
+}
+
+p {
+  font-weight: $normal-weight;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: $bold-weight;
+}

@@ -1,0 +1,10 @@
+
+.mobileShow {display: none !important ;} 
+.desktopShow {  text-align: center} 
+  /* Smartphone Portrait and Landscape */ 
+  @media only screen and (max-width: 576px) {
+    .mobileShow {display: inline !important; text-align: center}
+    .desktopShow{display: none !important ; } 
+}
+
+

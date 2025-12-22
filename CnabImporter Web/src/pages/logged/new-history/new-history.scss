@@ -1,0 +1,41 @@
+.bgHeaderSideBar{
+    background: rgba(219, 55, 55, 1);
+    color: white;
+    
+}
+.bgBodySideBar{
+    background: rgba(188, 47, 47, 1);
+    height: 100vh;
+}
+.aNavLink,span{
+
+    vertical-align: middle;
+}
+
+.marginLeftContainer {margin-left: 2.6rem}
+.paddingResponsive{padding: 25px;}
+
+.paddingResponsivePerguntasHeader{padding: 30px 25px 20px 25px !important;}
+.paddingResponsivePerguntas{padding: 0 20px 0px 25px;}
+.paddingResponsivePerguntasBody{padding: 30px 25px 0 25px;}
+
+.marginFerramentasEdicao{margin:60px}
+@media only screen and (max-width: 767px) {
+    .marginLeftContainer { margin-left: 0px !important;}  
+    .paddingResponsive{padding: 5px !important;}
+
+    .paddingResponsivePerguntasHeader{padding: 30px 25px 20px 20px !important;}
+    .paddingResponsivePerguntas{padding: 0 20px 0 20px;}
+    .paddingResponsivePerguntasBody{padding: 20px 25px 0 25px;}
+
+    .paddingLimitesTemas{padding: 20px 20px 0 30px;}
+
+    .marginButtonSaveResponsive{margin-bottom: 45px;}
+
+    .marginFerramentasEdicao{margin: 10px 0px 0px 0px !important; }
+}
+.bgTab{
+    background: rgba(246, 245, 244, 1);
+    padding: 0px !important;
+    margin: 0px !important;
+}

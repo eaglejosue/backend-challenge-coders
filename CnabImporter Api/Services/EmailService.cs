@@ -22,7 +22,7 @@ public sealed class EmailService(
     IEmailSender emailSender,
     ILogger<EmailService> logger) : IEmailService
 {
-    public async Task<Email?> GetByIdAsync(long id) => await db.Emails.FirstOrDefaultAsync(f => f.Id == id).ConfigureAwait(false);
+    public async Task<Email?> GetByIdAsync(long id) => await db.Emails.FirstOrDefaultAsync(f => f.Id == id);
 
     public async Task<List<Email>> GetAllAsync(EmailFilters filters)
     {
@@ -60,7 +60,7 @@ public sealed class EmailService(
         if (filters.IncludeUser.HasValue && filters.IncludeUser.Value)
             query = query.Include(i => i.User);
 
-        return await query.ToListAsync().ConfigureAwait(false);
+        return await query.ToListAsync();
     }
 
     public async Task<Email?> CreateAsync(Email model)
@@ -72,8 +72,8 @@ public sealed class EmailService(
             return default;
         }
 
-        var addResult = await db.Emails.AddAsync(model).ConfigureAwait(false);
-        await db.SaveChangesAsync().ConfigureAwait(false);
+        var addResult = await db.Emails.AddAsync(model);
+        await db.SaveChangesAsync();
 
         return addResult.Entity;
     }
@@ -94,7 +94,7 @@ public sealed class EmailService(
         {
             entitie.UpdatedAt = DateTimeBr.Now;
             db.Emails.Update(entitie);
-            await db.SaveChangesAsync().ConfigureAwait(false);
+            await db.SaveChangesAsync();
         }
 
         return entitie;
@@ -116,7 +116,7 @@ public sealed class EmailService(
         {
             entitie.UpdatedAt = DateTimeBr.Now;
             db.Emails.Update(entitie);
-            await db.SaveChangesAsync().ConfigureAwait(false);
+            await db.SaveChangesAsync();
         }
 
         return entitie;
@@ -131,7 +131,7 @@ public sealed class EmailService(
         entitie.DeletedAt = DateTimeBr.Now;
 
         db.Emails.Update(entitie);
-        await db.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync();
 
         return true;
     }
@@ -174,7 +174,7 @@ public sealed class EmailService(
         .Where(predicate)
             .Take(10)
             .ToListAsync()
-            .ConfigureAwait(false);
+            ;
 
         logger.LogInformation("{DT} | Send e-mail | E-mails found: {C}", DateTimeBr.Now.ToString("dd/MM/yyyy HH:mm:ss"), emails.Count);
 
@@ -192,6 +192,6 @@ public sealed class EmailService(
         });
 
         db.Emails.UpdateRange(emails);
-        await db.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync();
     }
 }

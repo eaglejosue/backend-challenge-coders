@@ -34,16 +34,6 @@ public sealed class UserPatchValidator : Validation<User>
     }
 }
 
-public sealed class UserBookLogCreateValidator : Validation<UserBookLog>
-{
-    public UserBookLogCreateValidator()
-    {
-        RuleFor(p => p.UserId).NotEmpty().NotNull();
-        RuleFor(p => p.BookId).NotEmpty().NotNull();
-        RuleFor(p => p.Log).NotEmpty().NotNull();
-    }
-}
-
 public sealed class UserLogCreateValidator : Validation<UserLog>
 {
     public UserLogCreateValidator()
@@ -58,6 +48,5 @@ public static class UserValidationExtension
     public static Task<ValidationResult> ValidateCreateAsync(this User u) => new UserCreateValidator().ValidateCustomAsync(u);
     public static Task<ValidationResult> ValidateUpdateAsync(this User u) => new UserUpdateValidator().ValidateCustomAsync(u);
     public static Task<ValidationResult> ValidatePatchAsync(this User u) => new UserPatchValidator().ValidateCustomAsync(u);
-    public static Task<ValidationResult> ValidateCreateUserBookLogAsync(this UserBookLog u) => new UserBookLogCreateValidator().ValidateCustomAsync(u);
     public static Task<ValidationResult> ValidateCreateUserLogAsync(this UserLog u) => new UserLogCreateValidator().ValidateCustomAsync(u);
 }

@@ -26,7 +26,7 @@ public sealed class LoginService(
             return default;
         }
 
-        user ??= await db.Users.FirstOrDefaultAsync(f => f.Email == login.Email).ConfigureAwait(false);
+        user ??= await db.Users.FirstOrDefaultAsync(f => f.Email == login.Email);
 
         if (user == null)
         {
@@ -74,7 +74,7 @@ public sealed class LoginService(
             return default;
         }
 
-        var user = await db.Users.FirstOrDefaultAsync(f => f.Email == login.Email).ConfigureAwait(false);
+        var user = await db.Users.FirstOrDefaultAsync(f => f.Email == login.Email);
         if (user == null)
             user = await userService.CreateAsync(new User(login));
 
@@ -102,7 +102,7 @@ public sealed class LoginService(
         user.ActivateUser();
 
         db.Users.Update(user);
-        await db.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync();
 
         return await LoginAsync(new Login(), user, true);
     }
@@ -116,7 +116,7 @@ public sealed class LoginService(
             return;
         }
 
-        var user = await db.Users.FirstOrDefaultAsync(a => a.Email == email).ConfigureAwait(false);
+        var user = await db.Users.FirstOrDefaultAsync(a => a.Email == email);
         if (user is null)
         {
             notification.AddNotification("Login", "E-mail não cadastrado. Crie sua conta!");
@@ -128,7 +128,7 @@ public sealed class LoginService(
 		user.PasswordResetExecuted();
 
 		db.Users.Update(user);
-        await db.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync();
 
         //Not required
         //var newEmail = await emailService.CreateAsync(new Email(user.Id, EmailType.ForgotPassword));
@@ -136,7 +136,7 @@ public sealed class LoginService(
     }
 
     public async Task<bool> CheckResetPasswordCodeAsync(Guid resetPasswordCode) =>
-        await db.Users.AnyAsync(p => p.ResetPasswordCode == resetPasswordCode).ConfigureAwait(false);
+        await db.Users.AnyAsync(p => p.ResetPasswordCode == resetPasswordCode);
 
     public async Task ResetPasswordAsync(ResetPassword model)
     {
@@ -147,7 +147,7 @@ public sealed class LoginService(
             return;
         }
 
-        var user = await db.Users.FirstOrDefaultAsync(p => p.ResetPasswordCode == model.ResetPasswordCode).ConfigureAwait(false);
+        var user = await db.Users.FirstOrDefaultAsync(p => p.ResetPasswordCode == model.ResetPasswordCode);
         if (user is null)
         {
             notification.AddNotification("Login", "Código inválido.");
@@ -165,6 +165,6 @@ public sealed class LoginService(
         user.EncryptPassword();
 
         db.Users.Update(user);
-        await db.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync();
     }
 }

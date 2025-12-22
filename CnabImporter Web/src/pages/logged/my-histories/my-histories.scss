@@ -1,0 +1,26 @@
+.border-card{
+    border: 1px solid rgba(217, 217, 217, 1) !important;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.08)  !important;
+    height: 276px;
+    width: 276px;
+}
+.border-card:hover{
+  background: rgba(255, 238, 238, 1);
+  border: 1px solid rgba(219, 55, 55, 1) !important;
+}
+.border-card:hover span{
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 1) !important
+  }
+.colIcon img{
+  
+   bottom: 0px;;
+}
+.alignResponsive{
+  @media only screen and (max-width: 767px) {
+    justify-content: center !important;
+  }
+}
+.bgButtonStatus{
+  background: rgba(246, 245, 244, 1);
+}

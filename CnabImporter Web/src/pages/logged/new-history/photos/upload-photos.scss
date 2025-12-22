@@ -1,0 +1,29 @@
+
+.containerPhoto{
+    min-height:  400px;
+}
+
+.scrolble{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height:  580px;
+}
+.scrolbleQuestion{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height:  350px;
+}
+.tableUpload{
+    font-size: small;
+}
+.rowBottomUpload{
+    min-height: 0px;
+    position: relative;
+}
+
+.rowMiddlepload{
+    min-height: 390px;;
+}
+.rowTopUpload{
+    min-height: 100px;;
+}

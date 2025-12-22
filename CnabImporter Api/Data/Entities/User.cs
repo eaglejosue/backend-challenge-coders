@@ -18,7 +18,8 @@ public sealed class User : Base
     public DateTime? ResetPasswordAt { get; private set; }
     public DateTime? AcceptedTermsAt { get; set; }
 
-    public ICollection<Transaction>? Transactions { get; set; }
+	public ICollection<Email>? Emails { get; set; }
+	public ICollection<Transaction>? Transactions { get; set; }
     public ICollection<UserLog>? UserLogs { get; set; }
 
     [NotMapped] public string? OldPassword { get; set; }

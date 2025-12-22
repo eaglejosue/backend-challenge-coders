@@ -1,0 +1,7 @@
+.radio-custom {
+  @import '../../../custom.scss';
+
+  input[type='radio'] {
+    accent-color: $primary;
+  }
+}

@@ -1,0 +1,30 @@
+.terms-and-conditions {
+  padding-right: 6px;
+}
+
+.terms-and-conditions::-webkit-scrollbar {
+  width: 6px;
+}
+
+.terms-and-conditions::-webkit-scrollbar-track {
+  background: #F1F1F1;
+  border-radius: 10px;
+}
+
+.terms-and-conditions::-webkit-scrollbar-thumb {
+  background: #CFCCD8;
+  border-radius: 10px;
+}
+
+.terms-and-conditions::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+label:first-child input[type=radio] {
+  width: 15px;
+  height: 15px;
+}
+
+label:last-child input[type=radio] {
+  transform: scale(1);
+}

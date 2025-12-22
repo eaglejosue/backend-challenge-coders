@@ -88,7 +88,7 @@ public sealed class UserService(
         var queryString = query.ToQueryString();
 #endif
 
-        return await query.ToListAsync().ConfigureAwait(false);
+        return await query.ToListAsync();
     }
 
     public async Task<User?> CreateAsync(User model)
@@ -100,7 +100,7 @@ public sealed class UserService(
             return default;
         }
 
-        var userByEmail = await db.Users.FirstOrDefaultAsync(f => f.Email == model.Email).ConfigureAwait(false);
+        var userByEmail = await db.Users.FirstOrDefaultAsync(f => f.Email == model.Email);
         if (userByEmail != null)
         {
             notification.AddNotification("User", "Usuário existente.");
@@ -110,11 +110,11 @@ public sealed class UserService(
         model.NewUser();
         model.EncryptPassword();
 
-        if (model.SignInWith.Equals(SignIn.Google.ToString(), StringComparison.CurrentCultureIgnoreCase))
-            model.ActivateUser();
+        //if (model.SignInWith.Equals(SignIn.Google.ToString(), StringComparison.CurrentCultureIgnoreCase))
+        model.ActivateUser();
 
-        var addResult = await db.Users.AddAsync(model).ConfigureAwait(false);
-        await db.SaveChangesAsync().ConfigureAwait(false);
+        var addResult = await db.Users.AddAsync(model);
+        await db.SaveChangesAsync();
 
         var newUser = addResult.Entity;
 
@@ -162,7 +162,7 @@ public sealed class UserService(
             entitie.UpdatedAt = DateTimeBr.Now;
             entitie.UpdatedBy = loggedUserName;
             db.Users.Update(entitie);
-            await db.SaveChangesAsync().ConfigureAwait(false);
+            await db.SaveChangesAsync();
 
             await CreateUserLogAsync(new UserLog(loggedUserId, string.Format("User Id {0} Updated", model.Id)));
         }
@@ -204,7 +204,7 @@ public sealed class UserService(
             entitie.UpdatedAt = DateTimeBr.Now;
             entitie.UpdatedBy = loggedUserName;
             db.Users.Update(entitie);
-            await db.SaveChangesAsync().ConfigureAwait(false);
+            await db.SaveChangesAsync();
 
             await CreateUserLogAsync(new UserLog(loggedUserId, string.Format("User Id {0} Patched", model.Id)));
         }
@@ -222,7 +222,7 @@ public sealed class UserService(
         entitie.UpdatedBy = loggedUserName;
 
         db.Users.Update(entitie);
-        await db.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync();
 
         await CreateUserLogAsync(new UserLog(loggedUserId, string.Format("User Id {0} Deleted", id)));
 
@@ -236,7 +236,7 @@ public sealed class UserService(
 
         entitie.AcceptedTermsAt = DateTimeBr.Now;
         db.Users.Update(entitie);
-        await db.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync();
     }
 
     public async Task<UserLog?> CreateUserLogAsync(UserLog model)
@@ -248,8 +248,8 @@ public sealed class UserService(
             return default;
         }
 
-        var addResult = await db.UserLogs.AddAsync(model).ConfigureAwait(false);
-        await db.SaveChangesAsync().ConfigureAwait(false);
+        var addResult = await db.UserLogs.AddAsync(model);
+        await db.SaveChangesAsync();
 
         return addResult.Entity;
     }

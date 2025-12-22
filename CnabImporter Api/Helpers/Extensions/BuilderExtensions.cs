@@ -20,7 +20,7 @@ public static class BuilderExtensions
 		//builder.Services.AddDbContext<IAutorDb>(o => o.UseNpgsql(config.GetConnectionString("IAutorDb")));
 
 		//Add DB Context Sqlite
-		builder.Services.AddDbContext<CnabDbContext>(o => o.UseSqlite("DataSource=CnabImporter.db;Cache=Shared", b => b.MigrationsAssembly("IAutor.Api")));
+		builder.Services.AddDbContext<CnabDbContext>(o => o.UseSqlite("DataSource=CnabImporter.db;Cache=Shared", b => b.MigrationsAssembly("Api")));
 
         builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 

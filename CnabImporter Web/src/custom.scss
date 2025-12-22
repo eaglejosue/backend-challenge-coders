@@ -1,0 +1,203 @@
+@use "sass:math";
+@use "sass:map";
+@use "sass:color";
+
+$body-bg: #FFF;
+$primary: #DB3737;
+$secondary: #000;
+$success: #5BB26E;
+$warning: #FFA755;
+$dark: #BC2F2F;
+$muted: #7F7F8B;
+$custom-gray: #9795B5;
+$custom-gray-1: #6D6D6D;
+$custom-gray-2: #EDEDED;
+$danger: #F72B50;
+$icon: #757575;
+$bg-icon: #F2F1FA;
+$pink: #FFEEEE;
+$disabled: #EBEBEB;
+
+$theme-colors: (
+  "primary": $primary,
+  "success": $success,
+  "warning": $warning,
+  "secondary": $secondary,
+  "dark": $dark,
+  "muted": $muted,
+  "danger":$danger,
+  "icon": $icon,
+  "bg-icon": $bg-icon,
+  "disabled": $disabled,
+  "pink": $pink,
+);
+
+$custom-colors: (
+  "custom-gray": $custom-gray,
+  "custom-gray-1": $custom-gray-1,
+  "custom-gray-2": $custom-gray-2,
+  "body-bg" : $body-bg,
+);
+
+.bg-iautor-color {
+  background-color: #f6f5f4;
+}
+
+.bg-iautor {
+  background: linear-gradient(180deg, #FFFFFF 47.65%, #F6F5F4 87.66%);
+}
+.container-fluid {
+
+  height: 100vh !important;
+}
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+@each $color, $value in $theme-colors {
+  .bg-#{$color}-opacity {
+    background-color: rgba($value, 0.15) !important;
+  }
+}
+
+@import './bootstrap/scss/functions';
+@import './bootstrap/scss/variables';
+@import "./bootstrap/scss/bootstrap";
+@import "./bootstrap/scss/utilities";
+
+// classes padroes
+$breakpoints: (
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px,
+  'xxl': 1400px) !default;
+
+@for $i from 0 through 100 {
+  .f-#{$i} {
+    font-size: #{$i}px;
+  }
+}
+
+@each $breakpoint, $value in $breakpoints {
+  @media (min-width: $value) {
+    @for $i from 0 through 100 {
+      .f-#{$breakpoint}-#{$i} {
+        font-size: #{$i}px;
+      }
+    }
+  }
+}
+
+@for $i from 0 through 100 {
+  .w-#{$i} {
+    width: percentage(math.div($i, 100)) !important;
+  }
+}
+
+@each $breakpoint, $value in $breakpoints {
+  @media (min-width: $value) {
+    @for $i from 0 through 100 {
+      .w-#{$breakpoint}-#{$i} {
+        width: percentage(math.div($i, 100)) !important;
+      }
+    }
+  }
+}
+
+@for $i from 0 through 100 {
+  .h-#{$i} {
+    width: percentage(math.div($i, 100)) !important;
+  }
+}
+
+@each $breakpoint, $value in $breakpoints {
+  @media (min-width: $value) {
+    @for $i from 0 through 100 {
+      .h-#{$breakpoint}-#{$i} {
+        width: percentage(math.div($i, 100)) !important;
+      }
+    }
+  }
+}
+
+@for $i from 0 through 100 {
+  .bottom-#{$i} {
+    bottom: percentage(math.div($i, 100)) !important;
+  }
+}
+
+@each $breakpoint, $value in $breakpoints {
+  @media (min-width: $value) {
+    @for $i from 0 through 100 {
+      .bottom-#{$breakpoint}-#{$i} {
+        bottom: percentage(math.div($i, 100)) !important;
+      }
+    }
+  }
+}
+
+// Source mixin
+@mixin make-container($padding-x: $container-padding-x) {
+  width: 100%;
+  padding-right: $padding-x;
+  padding-left: $padding-x;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+// Usage
+.custom-container {
+  @include make-container();
+}
+.mouse-click {
+  cursor: pointer;
+}
+
+.mouse-no-drop {
+  cursor: no-drop;
+}
+
+.danger-border {
+  border: 1px solid $danger;
+}
+
+.mb-6 {
+  margin-bottom: 6rem !important;
+}
+
+.p-title {
+  color: #212121;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.mainLogin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.spinner-small {
+  width: 1rem;
+  height: 1rem;
+}
+
+.custom-table td {
+  padding: 10px !important;
+}
+
+.pr-0 {
+  padding-right: 0 !important;
+}
+
+.mr-1 {
+  margin-right: 5px !important;
+}
+
+.nav-border-right {
+  border-right: 3px solid #db3737
+}

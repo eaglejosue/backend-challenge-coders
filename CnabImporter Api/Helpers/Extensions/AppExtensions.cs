@@ -20,9 +20,10 @@ public static class AppExtensions
         app.UseExceptionHandleMiddleware();
 
         app.MapUserEndpoints();
-        //app.MapTransactionEndpoints();
-    }
+		app.MapTransactionEndpoints();
+		app.MapTransactionTypeEndpoints();
+	}
 
-    public static IApplicationBuilder UseExceptionHandleMiddleware(this IApplicationBuilder builder)
+	public static IApplicationBuilder UseExceptionHandleMiddleware(this IApplicationBuilder builder)
         => builder.UseMiddleware<ExceptionHandleMiddleware>();
 }
