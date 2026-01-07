@@ -103,8 +103,9 @@ namespace Api.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("INTEGER");
+					b.Property<bool>("IsActive")
+						.HasColumnType("boolean")
+						.HasColumnName("is_active");
 
                     b.Property<string>("Owner")
                         .HasColumnType("varchar(14)")
@@ -118,7 +119,11 @@ namespace Api.Migrations
                         .HasColumnType("time")
                         .HasColumnName("time");
 
-                    b.Property<long>("TransactionTypeId")
+					b.Property<long>("UserId")
+						.HasColumnType("bigint")
+						.HasColumnName("user_id");
+
+					b.Property<long>("TransactionTypeId")
                         .HasColumnType("bigint")
                         .HasColumnName("transaction_type_id");
 
@@ -127,9 +132,6 @@ namespace Api.Migrations
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("TEXT");
-
-                    b.Property<long?>("UserId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(10,2)")
@@ -141,7 +143,7 @@ namespace Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("transaction", (string)null);
+                    b.ToTable("transactions", (string)null);
                 });
 
             modelBuilder.Entity("Api.Data.Entities.TransactionType", b =>
@@ -163,8 +165,9 @@ namespace Api.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("description");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("INTEGER");
+					b.Property<bool>("IsActive")
+						.HasColumnType("boolean")
+						.HasColumnName("is_active");
 
                     b.Property<string>("Nature")
                         .IsRequired()
@@ -188,7 +191,7 @@ namespace Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("transaction_type", (string)null);
+                    b.ToTable("transaction_types", (string)null);
                 });
 
             modelBuilder.Entity("Api.Data.Entities.User", b =>
@@ -335,11 +338,13 @@ namespace Api.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Api.Data.Entities.User", null)
-                        .WithMany("Transactions")
-                        .HasForeignKey("UserId");
+					b.HasOne("Api.Data.Entities.User", "User")
+						.WithMany("Transactions")
+						.HasForeignKey("UserId")
+						.OnDelete(DeleteBehavior.Restrict)
+						.IsRequired();
 
-                    b.Navigation("TransactionType");
+					b.Navigation("TransactionType");
                 });
 
             modelBuilder.Entity("Api.Data.Entities.UserLog", b =>

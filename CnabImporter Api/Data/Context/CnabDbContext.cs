@@ -80,9 +80,10 @@ public class CnabDbContext(DbContextOptions<CnabDbContext> o) : DbContext(o)
 
 		b.Entity<TransactionType>(entity =>
 		{
-			entity.ToTable("transaction_type");
+			entity.ToTable("transaction_types");
 			entity.Property(u => u.Id).HasColumnName("id");
 			entity.HasKey(u => u.Id);
+			entity.Property(u => u.IsActive).IsRequired().HasColumnType("boolean").HasColumnName("is_active");
 			entity.Property(u => u.CreatedAt).IsRequired().HasColumnType("timestamp").HasColumnName("created_at");
 
 			entity.Property(o => o.Type).HasColumnType("smallint").HasColumnName("type");
@@ -93,9 +94,10 @@ public class CnabDbContext(DbContextOptions<CnabDbContext> o) : DbContext(o)
 
 		b.Entity<Transaction>(entity =>
 		{
-			entity.ToTable("transaction");
+			entity.ToTable("transactions");
 			entity.Property(u => u.Id).HasColumnName("id");
 			entity.HasKey(u => u.Id);
+			entity.Property(u => u.IsActive).IsRequired().HasColumnType("boolean").HasColumnName("is_active");
 			entity.Property(u => u.CreatedAt).IsRequired().HasColumnType("timestamp").HasColumnName("created_at");
 
 			entity.Property(u => u.Date).HasColumnType("date").HasColumnName("date");
@@ -105,8 +107,10 @@ public class CnabDbContext(DbContextOptions<CnabDbContext> o) : DbContext(o)
 			entity.Property(u => u.Time).HasColumnType("time").HasColumnName("time");
 			entity.Property(o => o.Owner).HasColumnType("varchar(14)").HasColumnName("owner");
 			entity.Property(o => o.Store).HasColumnType("varchar(19)").HasColumnName("store");
+			entity.Property(u => u.UserId).HasColumnType("bigint").HasColumnName("user_id");
 			entity.Property(u => u.TransactionTypeId).HasColumnType("bigint").HasColumnName("transaction_type_id");
 
+			entity.HasOne(u => u.User).WithMany(u => u.Transactions).HasForeignKey(u => u.UserId).IsRequired().OnDelete(DeleteBehavior.Restrict);
 			entity.HasOne(u => u.TransactionType).WithMany(u => u.Transactions).HasForeignKey(u => u.TransactionTypeId).IsRequired().OnDelete(DeleteBehavior.Restrict);
 		});
 	}

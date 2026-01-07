@@ -9,7 +9,9 @@ public class Transaction : Base
 	public TimeSpan Time { get; set; }
 	public string? Owner { get; set; }
 	public string? Store { get; set; }
+	public long UserId { get; set; }
 	public long TransactionTypeId { get; set; }
 
+	public User User { get; set; }
 	public TransactionType TransactionType { get; set; }
 }

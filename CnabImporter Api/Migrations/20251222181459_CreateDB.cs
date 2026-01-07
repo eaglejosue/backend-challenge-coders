@@ -12,7 +12,7 @@ namespace Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "transaction_type",
+                name: "transaction_types",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -21,7 +21,7 @@ namespace Api.Migrations
                     description = table.Column<string>(type: "varchar(20)", nullable: false),
                     nature = table.Column<string>(type: "varchar(20)", nullable: false),
                     sign = table.Column<string>(type: "varchar(2)", nullable: false),
-                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
+					is_active = table.Column<bool>(type: "boolean", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
@@ -94,7 +94,7 @@ namespace Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "transaction",
+                name: "transactions",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "INTEGER", nullable: false)
@@ -106,9 +106,9 @@ namespace Api.Migrations
                     time = table.Column<TimeSpan>(type: "time", nullable: false),
                     owner = table.Column<string>(type: "varchar(14)", nullable: true),
                     store = table.Column<string>(type: "varchar(19)", nullable: true),
-                    transaction_type_id = table.Column<long>(type: "bigint", nullable: false),
-                    UserId = table.Column<long>(type: "INTEGER", nullable: true),
-                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
+					user_id = table.Column<long>(type: "bigint", nullable: false),
+					transaction_type_id = table.Column<long>(type: "bigint", nullable: false),
+					is_active = table.Column<bool>(type: "boolean", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
@@ -120,12 +120,12 @@ namespace Api.Migrations
                     table.ForeignKey(
                         name: "FK_transaction_transaction_type_transaction_type_id",
                         column: x => x.transaction_type_id,
-                        principalTable: "transaction_type",
+                        principalTable: "transaction_types",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_transaction_users_UserId",
-                        column: x => x.UserId,
+                        column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id");
                 });
@@ -158,12 +158,12 @@ namespace Api.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_transaction_transaction_type_id",
-                table: "transaction",
+                table: "transactions",
                 column: "transaction_type_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_transaction_UserId",
-                table: "transaction",
+                table: "transactions",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -185,13 +185,13 @@ namespace Api.Migrations
                 name: "emails");
 
             migrationBuilder.DropTable(
-                name: "transaction");
+                name: "transactions");
 
             migrationBuilder.DropTable(
                 name: "user_logs");
 
             migrationBuilder.DropTable(
-                name: "transaction_type");
+                name: "transaction_types");
 
             migrationBuilder.DropTable(
                 name: "users");

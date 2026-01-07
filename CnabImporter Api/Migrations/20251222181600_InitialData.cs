@@ -30,32 +30,32 @@ namespace Api.Migrations
             ) VALUES (
                 1,
                 true,
-                now(),
+                CURRENT_TIMESTAMP,
                 'Admin',
                 'System',
                 'admin@gmail.com',
                 '12345678910',
                 'Google',
                 'Admin',
-                now(),
+                CURRENT_TIMESTAMP,
                 '$2a$11$XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
                 null,
-                now(),
+                CURRENT_TIMESTAMP,
                 false,
-                now()
+                CURRENT_TIMESTAMP
             );");
 
 			mb.Sql(
-                @"INSERT INTO transaction_types (id, description, nature, signal) VALUES
-                  (1, 'Debit', 'Income', '+'),
-			      (2, 'Boleto', 'Expense', '-'),
-			      (3, 'Financing', 'Expense', '-'),
-			      (4, 'Credit', 'Income', '+'),
-			      (5, 'Loan Receipt', 'Income', '+'),
-			      (6, 'Sales', 'Income', '+'),
-			      (7, 'TED Receipt', 'Income', '+'),
-			      (8, 'DOC Receipt', 'Income', '+'),
-			      (9, 'Rent', 'Expense', '-');");
+				@"INSERT INTO transaction_types (id, is_active, created_at, type, description, nature, sign) VALUES
+                  (1, true, CURRENT_TIMESTAMP, 1, 'Debit', 'Income', '+'),
+			      (2, true, CURRENT_TIMESTAMP, 2, 'Boleto', 'Expense', '-'),
+			      (3, true, CURRENT_TIMESTAMP, 3, 'Financing', 'Expense', '-'),
+			      (4, true, CURRENT_TIMESTAMP, 4, 'Credit', 'Income', '+'),
+			      (5, true, CURRENT_TIMESTAMP, 5, 'Loan Receipt', 'Income', '+'),
+			      (6, true, CURRENT_TIMESTAMP, 6, 'Sales', 'Income', '+'),
+			      (7, true, CURRENT_TIMESTAMP, 7, 'TED Receipt', 'Income', '+'),
+			      (8, true, CURRENT_TIMESTAMP, 8, 'DOC Receipt', 'Income', '+'),
+			      (9, true, CURRENT_TIMESTAMP, 9, 'Rent', 'Expense', '-');");
 
 		}
 
